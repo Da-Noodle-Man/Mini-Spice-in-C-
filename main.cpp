@@ -10,7 +10,7 @@
 #include "Capacitor.h"
 #include "ACVoltageSource.h"
 #include "DCVoltageSource.h"
-#include "ImpedenceAnalysis.h"
+#include "Analysis.h"
 #include "NodalAnalysis.h"
 
 // ============================================

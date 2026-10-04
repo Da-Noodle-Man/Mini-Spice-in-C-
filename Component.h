@@ -25,7 +25,7 @@ inline string engFormat(double value) {
             idx++;
         }
     } else {
-        idx = 4;  // Start with 'm'
+        idx = 4;
         while (idx < 9 && scaled < 1.0) {
             scaled *= 1000.0;
             idx++;
@@ -43,7 +43,7 @@ protected:
     int nodeA, nodeB;
 
 public:
-    Component(string n, int a, int b): name(move(n)), nodeA(a), nodeB(b) {}
+    Component(string n, int a, int b): name(n), nodeA(a), nodeB(b) {}
 
     virtual ~Component() = default;
     virtual complex<double> getImpedance(double frequency) const = 0;

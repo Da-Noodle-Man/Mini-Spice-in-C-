@@ -9,21 +9,15 @@ private:
     double inductance;
 
 public:
-    Inductor(string n, int a, int b, double l): Component(move(n), a, b), inductance(l) {
-        if (l <= 0) {
-            throw invalid_argument("Inductance must be positive");
-        }
-    }
-
-    complex<double> getImpedance(double frequency) const override {
-        if (frequency == 0.0) {
+    Inductor(string n, int a, int b, double l): Component(n, a, b), inductance(l) {}
+    complex<double> getImpedance(double freq) const override {
+        if (freq == 0.0) {
             return complex<double>(0.0, 0.0);
         }
-        double omega = 2.0 * M_PI * frequency;
-        double imaginaryPart = omega * inductance;
-        return complex<double>(0.0, imaginaryPart);
+        double omega = 2.0 * M_PI * freq;
+        double img = omega * inductance;
+        return complex<double>(0.0, img);
     }
-
     double getValue() const override { return inductance; }
     string getType() const override { return "L"; }
     bool isSource() const override { return false; }

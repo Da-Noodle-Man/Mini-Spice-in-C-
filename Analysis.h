@@ -7,17 +7,11 @@
 #include <complex>
 #include <utility>
 using namespace std;
-// Impedance between two nodes p and n:
-// push 1 A into p and out of n, solve the nodal equations Y * V = I,
-// then Z = V(p) - V(n).
-
 using Complex = complex<double>;
 
-// Solve A x = b by Gaussian elimination with partial pivoting
 vector<Complex> solveLinear(vector<vector<Complex>> A, vector<Complex> b)
 {
     int n = static_cast<int>(b.size());
-
     for (int col = 0; col < n; ++col)
     {
         int pivot = col;
@@ -30,7 +24,6 @@ vector<Complex> solveLinear(vector<vector<Complex>> A, vector<Complex> b)
         }
         swap(A[col], A[pivot]);
         swap(b[col], b[pivot]);
-
         for (int r = col + 1; r < n; ++r)
         {
             Complex factor = A[r][col] / A[col][col];
@@ -55,14 +48,15 @@ vector<Complex> solveLinear(vector<vector<Complex>> A, vector<Complex> b)
     return x;
 }
 
-// Impedance looking into the circuit between nodes p and n (sources are left out)
 Complex impedanceBetween(const Circuit &circuit, int p, int n, double frequency)
 {
-    int size = circuit.getNumNodes() - 1; // ground (node 0) is the reference, so it has no row
+    int size = circuit.getNumNodes() - 1;
     vector<vector<Complex>> Y(size, vector<Complex>(size, 0.0));
     vector<Complex> I(size, 0.0);
     auto row = [](int node)
-    { return node - 1; };
+    {
+        return node - 1;
+    };
 
     for (const auto &c : circuit.getComponents())
     {
@@ -102,7 +96,6 @@ Complex impedanceBetween(const Circuit &circuit, int p, int n, double frequency)
     return Vp - Vn;
 }
 
-// The circuit's voltage source (assumes there is exactly one)
 const VoltageSource *findSource(const Circuit &circuit)
 {
     const VoltageSource *found = nullptr;
@@ -116,11 +109,10 @@ const VoltageSource *findSource(const Circuit &circuit)
     return found;
 }
 
-// Impedance of the whole circuit as seen by its voltage source
 Complex circuitImpedance(const Circuit &circuit, double frequency)
 {
     const VoltageSource *src = findSource(circuit);
     return impedanceBetween(circuit, src->getNodeA(), src->getNodeB(), frequency);
 }
 
-#endif // ANALYSIS_H
+#endif 

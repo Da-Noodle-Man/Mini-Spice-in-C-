@@ -8,6 +8,7 @@
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
 class Circuit
 {
 private:
@@ -17,6 +18,7 @@ private:
 
 public:
     Circuit(int nodes) : numNodes(nodes), groundNode(0) {}
+
     void add(unique_ptr<Component> c)
     {
         components.push_back(move(c));
@@ -44,13 +46,13 @@ public:
 
     void listComponents() const
     {
-        cout << left << setw(8) << "Name"<< setw(6) << "Type"<< setw(10) << "Value" << setw(12) << "Nodes"<< setw(20) << "Symbol" << endl;
+        cout << left << setw(8) << "Name" << setw(6) << "Type" << setw(10) << "Value" << setw(12) << "Nodes" << setw(20) << "Symbol" << endl;
         cout << string(56, '-') << endl;
 
         for (const auto &c : components)
         {
             string nodes = to_string(c->getNodeA()) + "-" + to_string(c->getNodeB());
-            cout << left << setw(8) << c->getName()<< setw(6) << c->getType() << setw(10) << engFormat(c->getValue())<< setw(12) << nodes<< setw(20) << c->getSymbol() << endl;
+            cout << left << setw(8) << c->getName() << setw(6) << c->getType() << setw(10) << engFormat(c->getValue()) << setw(12) << nodes << setw(20) << c->getSymbol() << endl;
         }
     }
 };

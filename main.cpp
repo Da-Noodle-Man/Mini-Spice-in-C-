@@ -14,9 +14,6 @@
 #include "Analysis.h"
 #include "NodalAnalysis.h"
 
-// ============================================
-// Data collected from the user before the circuit is built
-// ============================================
 struct Entry
 {
     char type = 'R'; // 'R', 'L', 'C', 'A' (AC source), 'D' (DC source)

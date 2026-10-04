@@ -20,10 +20,9 @@ public:
     Circuit(int nodes) : numNodes(nodes), groundNode(0) {}
 
     // Create a component and add it, e.g. circuit.add<Resistor>("R1", 1, 2, 1000.0);
-    template <typename T, typename... Args>
-    void add(Args &&...args)
+    void add(unique_ptr<Component> c)
     {
-        components.push_back(make_unique<T>(forward<Args>(args)...));
+        components.push_back(move(c));
     }
 
     int getNumNodes() const { return numNodes; }
@@ -44,32 +43,6 @@ public:
             }
         }
         return false;
-    }
-
-    // Returns a list of problems (empty if the circuit is fine)
-    vector<string> validate() const
-    {
-        vector<string> problems;
-
-        if (components.empty())
-        {
-            problems.push_back("Circuit has no components");
-        }
-
-        int sources = 0;
-        for (const auto &c : components)
-        {
-            if (c->isSource())
-            {
-                sources++;
-            }
-        }
-        if (sources > 1)
-        {
-            problems.push_back("Only one voltage source is supported");
-        }
-
-        return problems;
     }
 
     void listComponents() const
